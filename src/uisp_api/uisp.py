@@ -11,7 +11,7 @@ class APIException(Exception):
     pass
 
 
-class UISP_API(object):
+class UispApi(object):
 
     def __init__(self, uisp_server, app_key, crm_version='v1.0',
                  nms_version='v2.1', secure=True) -> None:
@@ -46,10 +46,10 @@ class UISP_API(object):
         '''To document.
         '''
 
-        logger.debug("Entered _call_api crm '{api_call}' => {parameters}")
+        logger.debug(f"Entered _call_api crm '{api_call}' => {parameters}")
 
         if call_method not in ['delete', 'get', 'patch', 'post']:
-            raise APIException("Unknown call method: {0}".format(call_method))
+            raise APIException(f"Unknown call method: {call_method}")
 
         api_url = self._build_url_crm(api_call)
 
@@ -134,7 +134,7 @@ class UISP_API(object):
         for key, value in kwargs.items():
             params[key] = value
 
-        logger.debug("Device list params: {0}".format(params))
+        logger.debug("Get device list search params: {0}".format(params))
 
         result = self._call_api_nms(
             'get',
@@ -194,8 +194,8 @@ class UISP_API(object):
 
 if __name__ == '__main__':
     import pprint
-    logging.BASIC_FORMAT = '%(asctime)s - %(name)s - %(thread)d - " \
-        "%(levelname)s - %(message)s'
+    logging.BASIC_FORMAT = ('%(asctime)s - %(name)s - %(thread)d - '
+        '%(levelname)s - %(message)s')
     logging.getLogger('urllib3.connectionpool').setLevel(logging.INFO)
     logging.basicConfig(level=logging.DEBUG, format=logging.BASIC_FORMAT)
     logging.info("Start")
@@ -206,7 +206,7 @@ if __name__ == '__main__':
     with open('host.txt', 'r') as f:
         UISP_SERVER = f.read().strip()
 
-    uispH = UISP_API(UISP_SERVER, UISP_KEY)
+    uispH = UispApi(UISP_SERVER, UISP_KEY)
 
     server_version = uispH.version_get()
 
@@ -218,6 +218,6 @@ if __name__ == '__main__':
     for curr_device in devices:
         count += 1
 
-    print("Device count: {0}".format(count))
+    logging.info("Device count: {0}".format(count))
 
     logging.info("Done")
