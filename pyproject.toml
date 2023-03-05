@@ -1,0 +1,23 @@
+[build-system]
+requires= [
+    "hatchling",
+]
+build-backend="hatchling.build"
+
+[project]
+name    = "uisp_api"
+version = "0.0.1"
+authors = [
+    { name="David Mc Ken", email="" },
+]
+description = "Used for interacting with the Ubiquiti UISP API"
+readme = "README.md"
+requires-python=">=3.7"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+
+[project.urls]
+"Homepage" = "<to fill in>"
+"Bug Tracker" = "<to fill in>"
