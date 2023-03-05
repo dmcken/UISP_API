@@ -17,7 +17,8 @@ classifiers = [
     "Programming Language :: Python :: 3",
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
+]
 
 [project.urls]
-"Homepage" = "<to fill in>"
-"Bug Tracker" = "<to fill in>"
+"Homepage" = "https://github.com/dmcken/UISP_API"
+"Bug Tracker" = "https://github.com/dmcken/UISP_API/issues"
