@@ -12,6 +12,8 @@ class APIException(Exception):
 
 
 class UispApi(object):
+    '''
+    '''
 
     def __init__(self, uisp_server, app_key, crm_version='v1.0',
                  nms_version='v2.1', secure=True) -> None:
@@ -26,7 +28,7 @@ class UispApi(object):
         self._app_key = app_key
 
     def _build_url_crm(self, sub_path) -> str:
-        '''To document.
+        '''Build the request URL for this
 
         '''
         if self._secure:
