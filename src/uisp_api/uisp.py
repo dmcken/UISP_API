@@ -1,4 +1,6 @@
-import ipaddress
+'''UISP Rest API handler.
+'''
+
 import logging
 import requests
 import urllib.parse
@@ -8,16 +10,17 @@ logger = logging.getLogger(__name__)
 
 
 class APIException(Exception):
+    '''UISP API Exception'''
     pass
 
 
-class UispApi(object):
-    '''
+class UispApi:
+    '''Main UISP API class.
     '''
 
     def __init__(self, uisp_server, app_key, crm_version='v1.0',
                  nms_version='v2.1', secure=True) -> None:
-        '''
+        '''Constructor
         '''
         super().__init__()
 
@@ -28,8 +31,7 @@ class UispApi(object):
         self._app_key = app_key
 
     def _build_url_crm(self, sub_path) -> str:
-        '''Build the request URL for this
-
+        '''Build the request URL for the CRM side of the API.
         '''
         if self._secure:
             protocol = 'https'
@@ -45,7 +47,7 @@ class UispApi(object):
 
     def _call_api_crm(self, call_method, api_call, parameters=None,
                       return_type='json'):
-        '''To document.
+        '''Perform a call to the CRM side of the API.
         '''
 
         logger.debug(f"Entered _call_api crm '{api_call}' => {parameters}")
@@ -69,7 +71,7 @@ class UispApi(object):
             raise APIException("Unimplemented call method: {call_method}")
 
     def _build_url_nms(self, sub_path) -> str:
-        '''
+        '''Build the request URL for the NMS side of the API.
 
         '''
         if self._secure:
@@ -90,7 +92,7 @@ class UispApi(object):
 
     def _call_api_nms(self, call_method, api_call, parameters=None,
                       return_type='json'):
-        '''To document.
+        '''Perform a call to the NMS side of the API.
         '''
 
         api_url = self._build_url_nms(api_call)
@@ -101,17 +103,16 @@ class UispApi(object):
             'x-auth-token': self._app_key,
         }
 
-        r = requests.get(
+        req = requests.get(
             api_url,
             headers=headers,
             params=parameters,
         )
 
-        if r.status_code == 200:
+        if req.status_code == 200:
             if return_type == 'json':
-                return r.json()
-            else:
-                return r.raw
+                return req.json()
+            return req.raw
         else:
             raise RuntimeError("Got error '{r.status_code}' while executing "
                                "request")
@@ -195,7 +196,6 @@ class UispApi(object):
 
 
 if __name__ == '__main__':
-    import pprint
     logging.BASIC_FORMAT = ('%(asctime)s - %(name)s - %(thread)d - '
         '%(levelname)s - %(message)s')
     logging.getLogger('urllib3.connectionpool').setLevel(logging.INFO)
